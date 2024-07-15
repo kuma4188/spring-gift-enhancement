@@ -1,5 +1,6 @@
 package gift.model;
 
+import gift.dto.ProductDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,23 +17,28 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(nullable = false , length = 20)
+
+    @Column(nullable = false, length = 20)
     @NotNull(message = "이름에 NULL 불가능")
     @Size(max = 20, message = "20자 이상 불가능")
     private String name;
+
     @Column(nullable = false)
     private int price;
+
     @Column(name = "image_url", nullable = false)
     @NotNull(message = "URL에 NULL 불가능")
     private String imageUrl;
+
     @Column(name = "category", nullable = false)
     private int category;
 
-    // 생성자
+    // 기본 생성자
     public Product() {
     }
 
-    public Product(Long id, String name, int price, String imageUrl , int category) {
+    // 필드 초기화하는 생성자
+    public Product(Long id, String name, int price, String imageUrl, int category) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -40,36 +46,62 @@ public class Product {
         this.category = category;
     }
 
-    //getter
+    // DTO를 받아서 초기화하는 생성자
+    public Product(ProductDTO productDTO) {
+        this.id = productDTO.getId();
+        this.name = productDTO.getName();
+        this.price = productDTO.getPrice();
+        this.imageUrl = productDTO.getImageUrl();
+        this.category = productDTO.getCategory();
+    }
+
+    // Getter
     public Long getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }
+
     public int getPrice() {
         return price;
     }
+
     public String getImageUrl() {
         return imageUrl;
     }
+
     public int getCategory() {
         return category;
     }
 
-
-    // setter
+    // Setter
     public void setId(Long id) {
         this.id = id;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public void setPrice(int price) {
         this.price = price;
     }
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    public  void  setCategory(int category) { this.category=category;}
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
+
+    // DTO에서 값을 업데이트하는 메서드
+    public void updateFromDTO(ProductDTO productDTO) {
+        this.name = productDTO.getName();
+        this.price = productDTO.getPrice();
+        this.imageUrl = productDTO.getImageUrl();
+        this.category = productDTO.getCategory();
+    }
 }
