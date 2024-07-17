@@ -78,11 +78,9 @@
     <a href="/web/products/list" class="btn">목록으로 돌아가기</a>
   </div>
 </div>
-
 <div class="total-price">
   <h2>총 가격: <span id="total-price" th:text="${product.price}">가격</span></h2>
 </div>
-
 <h2>제품 옵션</h2>
 <table>
   <thead>
@@ -102,10 +100,8 @@
   </tr>
   </tbody>
 </table>
-
 <div class="wishlist-btn">
   <button class="btn add-to-wishlist" th:data-product-id="${product.id}">찜하기</button>
 </div>
-
 </body>
 </html>
