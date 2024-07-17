@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Product Detail and Options</title>
+  <style>
+    .container {
+        display: flex;
+    }
+    .product-image {
+        flex: 1;
+        text-align: center;
+    }
+    .product-details {
+        flex: 2;
+        padding: 20px;
+    }
+    .total-price {
+        text-align: right;
+        padding: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        text-align: center;
+        text-decoration: none;
+        color: white;
+        background-color: #4CAF50;
+        border-radius: 5px;
+    }
+    .btn-secondary {
+        background-color: #f44336;
+    }
+    .wishlist-btn {
+        text-align: center;
+        margin-top: 20px;
+    }
+  </style>
+  <script>
+    function updateTotalPrice() {
+    const productPrice = parseInt(document.getElementById('product-price').innerText);
+    let totalPrice = productPrice;
+    document.querySelectorAll('.option-row').forEach((row) => {
+        const quantity = parseInt(row.querySelector('.quantity').value);
+        const price = parseInt(row.querySelector('.option-price').innerText);
+        const isChecked = row.querySelector('input[name="optionSelect"]').checked;
+        if (isChecked) {
+            totalPrice += price * quantity;
+        }
+    });
+    document.getElementById('total-price').innerText = totalPrice;
+}
+  </script>
+</head>
+<body>
+<div class="container">
+  <div class="product-image">
+    <img th:src="${product.imageUrl}" alt="product image" width="200"/>
+  </div>
+  <div class="product-details">
+    <h1>Product Detail</h1>
+    <p>ID: <span th:text="${product.id}">1</span></p>
+    <p>Name: <span th:text="${product.name}">Name</span></p>
+    <p>Price: <span id="product-price" th:text="${product.price}">Price</span></p>
+    <p>Category: <span th:text="${product.categoryName}">Category</span></p>
+    <a href="/web/products/list" class="btn">Back to List</a>
+  </div>
+</div>
+
+<div class="total-price">
+  <h2>Total Price: <span id="total-price" th:text="${product.price}">Price</span></h2>
+</div>
+
+<h2>Product Options</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Select</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="option : ${options}">
+    <td th:text="${option.name}">Option Name</td>
+    <td><input type="number" min="1" th:value="1" class="quantity" style="width: 60px;"/></td>
+    <td class="option-price" th:text="${option.price}">Price</td>
+    <td><input type="checkbox" name="optionSelect" onclick="updateTotalPrice()"></td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="wishlist-btn">
+  <button class="btn add-to-wishlist" th:data-product-id="${product.id}">찜하기</button>
+</div>
+
+</body>
+</html>
