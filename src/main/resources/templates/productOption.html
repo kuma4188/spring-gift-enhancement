@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Product Detail and Options</title>
+  <title>제품 상세 및 옵션</title>
   <style>
     .container {
         display: flex;
@@ -50,54 +50,54 @@
   </style>
   <script>
     function updateTotalPrice() {
-    const productPrice = parseInt(document.getElementById('product-price').innerText);
-    let totalPrice = productPrice;
-    document.querySelectorAll('.option-row').forEach((row) => {
-        const quantity = parseInt(row.querySelector('.quantity').value);
-        const price = parseInt(row.querySelector('.option-price').innerText);
-        const isChecked = row.querySelector('input[name="optionSelect"]').checked;
-        if (isChecked) {
-            totalPrice += price * quantity;
-        }
-    });
-    document.getElementById('total-price').innerText = totalPrice;
-}
+        const productPrice = parseFloat(document.getElementById('product-price').innerText);
+        let totalPrice = productPrice;
+        document.querySelectorAll('.option-row').forEach((row) => {
+            const quantity = parseFloat(row.querySelector('.quantity').value);
+            const price = parseFloat(row.querySelector('.option-price').innerText);
+            const isChecked = row.querySelector('input[name="optionSelect"]').checked;
+            if (isChecked) {
+                totalPrice += price * quantity;
+            }
+        });
+        document.getElementById('total-price').innerText = Math.round(totalPrice);
+    }
   </script>
 </head>
 <body>
 <div class="container">
   <div class="product-image">
-    <img th:src="${product.imageUrl}" alt="product image" width="200"/>
+    <img th:src="${product.imageUrl}" alt="제품 이미지" width="200"/>
   </div>
   <div class="product-details">
-    <h1>Product Detail</h1>
+    <h1>제품 상세</h1>
     <p>ID: <span th:text="${product.id}">1</span></p>
-    <p>Name: <span th:text="${product.name}">Name</span></p>
-    <p>Price: <span id="product-price" th:text="${product.price}">Price</span></p>
-    <p>Category: <span th:text="${product.categoryName}">Category</span></p>
-    <a href="/web/products/list" class="btn">Back to List</a>
+    <p>이름: <span th:text="${product.name}">이름</span></p>
+    <p>가격: <span id="product-price" th:text="${product.price}">가격</span></p>
+    <p>카테고리: <span th:text="${product.categoryName}">카테고리</span></p>
+    <a href="/web/products/list" class="btn">목록으로 돌아가기</a>
   </div>
 </div>
 
 <div class="total-price">
-  <h2>Total Price: <span id="total-price" th:text="${product.price}">Price</span></h2>
+  <h2>총 가격: <span id="total-price" th:text="${product.price}">가격</span></h2>
 </div>
 
-<h2>Product Options</h2>
+<h2>제품 옵션</h2>
 <table>
   <thead>
   <tr>
-    <th>Name</th>
-    <th>Quantity</th>
-    <th>Price</th>
-    <th>Select</th>
+    <th>이름</th>
+    <th>수량</th>
+    <th>가격</th>
+    <th>선택</th>
   </tr>
   </thead>
   <tbody>
-  <tr th:each="option : ${options}">
-    <td th:text="${option.name}">Option Name</td>
-    <td><input type="number" min="1" th:value="1" class="quantity" style="width: 60px;"/></td>
-    <td class="option-price" th:text="${option.price}">Price</td>
+  <tr class="option-row" th:each="option : ${options}">
+    <td th:text="${option.name}">옵션 이름</td>
+    <td><input type="number" min="1" th:value="1" class="quantity" style="width: 60px;" onchange="updateTotalPrice()"/></td>
+    <td class="option-price" th:text="${option.price}">가격</td>
     <td><input type="checkbox" name="optionSelect" onclick="updateTotalPrice()"></td>
   </tr>
   </tbody>
