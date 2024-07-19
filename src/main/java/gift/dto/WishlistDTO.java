@@ -1,14 +1,16 @@
 package gift.dto;
 
+import java.util.List;
 
 public class WishlistDTO {
     private Long id;
     private Long productId;
     private String username;
-    private int quantity; // 수량 필드 추가
-    private String productName; // 제품 이름 추가
-    private int price; // 제품 가격 추가
-    private String imageUrl; // 제품 이미지 URL 추가
+    private int quantity;
+    private String productName;
+    private int price;
+    private String imageUrl;
+    private List<OptionDTO> options; // 옵션 리스트 추가
 
     public WishlistDTO() {}
 
@@ -78,5 +80,12 @@ public class WishlistDTO {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-}
 
+    public List<OptionDTO> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<OptionDTO> options) {
+        this.options = options;
+    }
+}
